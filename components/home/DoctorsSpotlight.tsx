@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Variants } from "framer-motion";
 
 interface Doctor {
   id: string;
@@ -20,6 +21,7 @@ const doctors: Doctor[] = [
     name: "Dr. Haregewoin",
     role: "Chief Dental Surgeon",
     yearsExperience: 15,
+    rating: 5,
     specialties: ["Dental Implants", "Cosmetic Dentistry", "Smile Makeovers"],
     languages: ["English", "Amharic"],
   },
@@ -28,13 +30,14 @@ const doctors: Doctor[] = [
     name: "Dr. Tsige",
     role: "Orthodontic Director",
     yearsExperience: 12,
+    rating: 5,
     specialties: ["Invisalign®", "Clear Braces", "Jaw Alignment"],
     languages: ["English", "Amharic"],
   },
 ];
 
 // Animation Variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -43,7 +46,7 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -53,7 +56,7 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.215, 0.61, 0.355, 1],
+      ease: "easeOut",
     },
   },
 };
