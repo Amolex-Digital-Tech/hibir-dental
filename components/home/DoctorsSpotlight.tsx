@@ -8,7 +8,7 @@ interface Doctor {
   id: string;
   name: string;
   role: string;
-  rating: number;
+  rating?: number; // Optional property prevents build errors when omitted
   yearsExperience: number;
   specialties: string[];
   languages: string[];
@@ -117,7 +117,7 @@ export function DoctorsSpotlight() {
               whileHover={{ y: -6 }}
               className="group relative bg-white/80 backdrop-blur-md rounded-[30px] border border-slate-200/80 p-6 sm:p-8 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 hover:border-sky-300 transition-all duration-300 flex flex-col sm:flex-row gap-6 sm:gap-8 items-center sm:items-start"
             >
-              {/* Doctor Image Placeholder Container */}
+              {/* Doctor Image Placeholder */}
               <div className="relative w-full sm:w-48 h-64 sm:h-full min-h-[240px] rounded-2xl overflow-hidden bg-slate-100/80 border border-slate-200/60 flex-shrink-0 flex items-center justify-center group-hover:bg-sky-50/50 transition-colors duration-300">
                 <div className="flex flex-col items-center justify-center text-slate-300 group-hover:text-sky-300 transition-colors duration-300">
                   <svg
@@ -139,10 +139,12 @@ export function DoctorsSpotlight() {
                     <span className="text-xs font-semibold text-[#0EA5E9] bg-sky-50 px-2.5 py-1 rounded-md">
                       👨‍⚕️ {doctor.role}
                     </span>
-                    <div className="flex items-center gap-1 text-amber-500 text-sm font-semibold">
-                      <span>★</span>
-                      <span className="text-slate-700">{doctor.rating}</span>
-                    </div>
+                    {doctor.rating !== undefined && (
+                      <div className="flex items-center gap-1 text-amber-500 text-sm font-semibold">
+                        <span>★</span>
+                        <span className="text-slate-700">{doctor.rating}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Doctor Name */}
