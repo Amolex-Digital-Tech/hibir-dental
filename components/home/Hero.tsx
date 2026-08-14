@@ -29,7 +29,7 @@ export function Hero() {
             {/* Bright Glass Pill Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/70 border border-white/80 backdrop-blur-md text-sky-700 text-xs md:text-sm font-semibold tracking-wide shadow-sm">
               <Sparkles className="w-4 h-4 text-sky-600 animate-pulse" />
-              <span>LEADING DENTAL SPECIALTY CLINIC IN ADDIS ABABA</span>
+              <span>SPECIALIST DENTAL CARE BY EXPERIENCED DENTISTS</span>
             </div>
 
             {/* Main Heading with Bright Gradients */}

@@ -1,48 +1,111 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Smile, ShieldAlert, RefreshCw, CalendarCheck } from "lucide-react";
+import {
+  Sparkles,
+  Smile,
+  ShieldAlert,
+  RefreshCw,
+  CalendarCheck,
+} from "lucide-react";
 
 const TIPS = [
-  { icon: Sparkles, title: "Brush Twice Daily", desc: "Use a fluoride toothpaste for at least 2 minutes every morning and night." },
-  { icon: Smile, title: "Floss Everyday", desc: "Remove plaque and food particles where toothbrushes can't reach." },
-  { icon: ShieldAlert, title: "Limit Sugary Foods", desc: "Reduce sugar intake to prevent enamel erosion and cavity formation." },
-  { icon: RefreshCw, title: "Replace Toothbrush", desc: "Swap your brush or brush head every 3–4 months for optimal clean." },
-  { icon: CalendarCheck, title: "Regular Check-ups", desc: "Visit your dentist twice a year for early detection and cleaning." },
+  {
+    icon: Sparkles,
+    title: "Brush Twice Daily",
+    desc: "Brush for about two minutes, morning and night, using a fluoride toothpaste.",
+  },
+  {
+    icon: Smile,
+    title: "Clean Between Teeth",
+    desc: "Use dental floss or another interdental cleaner to remove plaque where brushing cannot reach.",
+  },
+  {
+    icon: ShieldAlert,
+    title: "Limit Frequent Sugar",
+    desc: "Reduce frequent exposure to sugary foods and drinks to lower your risk of tooth decay.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Replace Your Toothbrush",
+    desc: "Replace your toothbrush or brush head regularly, especially when the bristles become worn or frayed.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Keep Regular Check-ups",
+    desc: "Visit your dentist at intervals recommended for your individual oral-health needs.",
+  },
 ];
 
 export function OralHealthTips() {
   return (
-    <section className="py-24 bg-slate-50 border-t border-slate-200">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="font-bold uppercase text-xs tracking-widest block mb-2 text-amber-600">
+    <section className="border-t border-slate-200 bg-slate-50 py-24">
+      <div className="mx-auto max-w-7xl px-6">
+
+        {/* Section Header */}
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.2em] text-amber-600">
             Quick Advice
           </span>
-          <h2 className="text-3xl font-extrabold text-slate-900">Essential Oral Health Tips</h2>
+
+          <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">
+            Essential Oral Health Tips
+          </h2>
+
+          <p className="mt-4 text-sm leading-relaxed text-slate-600 md:text-base">
+            Simple habits can make a meaningful difference to your oral health.
+            Here are a few practical reminders from the dental team at Hibir
+            Specialty Dental Clinic.
+          </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {TIPS.map((tip, i) => {
+        {/* Tips */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          {TIPS.map((tip, index) => {
             const Icon = tip.icon;
+
             return (
-              <motion.div
+              <motion.article
                 key={tip.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm text-center flex flex-col items-center justify-between"
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                  margin: "-40px",
+                }}
+                transition={{
+                  duration: 0.45,
+                  delay: index * 0.06,
+                }}
+                className="group flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
-                <div 
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                  style={{ backgroundColor: "rgba(255, 153, 0, 0.12)", color: "#d97706" }}
+                {/* Icon */}
+                <div
+                  className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105"
+                  style={{
+                    backgroundColor: "rgba(255, 153, 0, 0.12)",
+                    color: "#d97706",
+                  }}
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-sm font-bold text-slate-900 mb-2">{tip.title}</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">{tip.desc}</p>
-              </motion.div>
+
+                {/* Title */}
+                <h3 className="mb-2 text-sm font-bold text-slate-900">
+                  {tip.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-xs leading-relaxed text-slate-500">
+                  {tip.desc}
+                </p>
+              </motion.article>
             );
           })}
         </div>

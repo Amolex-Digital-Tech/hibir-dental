@@ -1,63 +1,54 @@
 export interface GalleryItem {
   id: number;
-  category: string;
   title: string;
+  category: string;
   image: string;
-  aspectRatio?: "portrait" | "landscape" | "square";
 }
 
 export const GALLERY_CATEGORIES = [
   "All",
   "Clinic",
-  "Before & After",
-  "Treatments",
-  "Doctors",
-  "Equipment",
-  "Events",
-  "Patients",
+  "Technology",
+  "Care",
+  "Treatment",
+  "Team",
 ];
 
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 1,
+    title: "Hibir Specialty Dental Clinic",
     category: "Clinic",
-    title: "Modern Reception Area",
-    image: "/images/gallery/reception.jpg",
-    aspectRatio: "landscape",
+    image: "/gallery/IMG_0332.jpg",
   },
   {
     id: 2,
-    category: "Before & After",
-    title: "Full Veneer Transformation",
-    image: "/images/gallery/veneers-ba.jpg",
-    aspectRatio: "portrait",
+    title: "Modern Dental Care",
+    category: "Clinic",
+    image: "/gallery/IMG_0197.jpg",
   },
   {
     id: 3,
-    category: "Treatments",
-    title: "3D Guided Implant Placement",
-    image: "/images/gallery/implant-surgery.jpg",
-    aspectRatio: "square",
+    title: "Advanced Dental Experience",
+    category: "Technology",
+    image: "/gallery/dental-team.jpg",
   },
   {
     id: 4,
-    category: "Equipment",
-    title: "3D Digital Intraoral Scanner",
-    image: "/images/gallery/scanner.jpg",
-    aspectRatio: "landscape",
+    title: "Patient Care",
+    category: "Care",
+    image: "/gallery/IMG_0114.jpg",
   },
   {
     id: 5,
-    category: "Doctors",
-    title: "Clinical Consultation",
-    image: "/images/gallery/consultation.jpg",
-    aspectRatio: "portrait",
+    title: "Specialized Dentistry",
+    category: "Treatment",
+    image: "/gallery/IMG_0236.jpg",
   },
   {
     id: 6,
-    category: "Clinic",
-    title: "Sterilization Suite",
-    image: "/images/gallery/sterilization.jpg",
-    aspectRatio: "square",
+    title: "Hibir Dental Team",
+    category: "Team",
+    image: "/gallery/IMG_0283.jpg",
   },
 ];

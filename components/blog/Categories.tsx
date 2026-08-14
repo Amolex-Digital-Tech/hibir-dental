@@ -7,24 +7,24 @@ export function Categories() {
   const [activeCategory, setActiveCategory] = useState("All");
 
   return (
-    <section className="py-8 bg-slate-100/70 border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-6 overflow-x-auto scrollbar-none">
-        <div className="flex items-center justify-center gap-2 min-w-max">
-          {BLOG_CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat;
+    <section className="border-b border-slate-200 bg-slate-100/70 py-8">
+      <div className="mx-auto max-w-7xl overflow-x-auto px-6">
+        <div className="flex min-w-max items-center justify-center gap-2">
+          {BLOG_CATEGORIES.map((category) => {
+            const isActive = activeCategory === category;
+
             return (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className="px-5 py-2 rounded-full text-xs font-semibold transition-all duration-300"
-                style={{
-                  backgroundColor: isActive ? "#ff9900" : "#ffffff",
-                  color: isActive ? "#0f172a" : "#475569",
-                  border: isActive ? "1px solid #ff9900" : "1px solid #e2e8f0",
-                  boxShadow: isActive ? "0 4px 12px rgba(255, 153, 0, 0.25)" : "0 1px 2px rgba(0,0,0,0.05)",
-                }}
+                key={category}
+                type="button"
+                onClick={() => setActiveCategory(category)}
+                className={`rounded-full border px-5 py-2 text-xs font-semibold transition-all duration-300 ${
+                  isActive
+                    ? "border-amber-500 bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                }`}
               >
-                {cat}
+                {category}
               </button>
             );
           })}
