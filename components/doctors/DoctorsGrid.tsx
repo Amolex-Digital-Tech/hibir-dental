@@ -11,11 +11,11 @@ import { Clock, Globe, ArrowRight } from "lucide-react";
 
 const DOCTORS = [
   {
-    slug: "dr-haregewoin",
-    name: "Dr. Haregewoin",
+    slug: "dr-haregewoin-eshetu",
+    name: "Haregewoin  Eshetu",
     title: "Chief Expert Dental Surgeon",
     experience: "20+ Years",
-    languages: ["English", "Amharic"],
+    languages: ["English", "Amharic", "Polish"],
     specialties: [
       "Dental Implants",
       "Cosmetic Dentistry",
@@ -24,11 +24,11 @@ const DOCTORS = [
     image: "/doctors/doctor-haregewoin-profile.jpg",
   },
   {
-    slug: "dr-tsige",
-    name: "Dr. Tsige",
+    slug: "dr-tsigeweini-gebremedhin",
+    name: "Dr. Tsegeweini  G/medhin",
     title: "Chief Expert Dental Surgeon",
     experience: "20+ Years",
-    languages: ["English", "Amharic"],
+    languages: ["English", "Amharic", "Spanish"],
     specialties: [
       "Invisalign®",
       "Clear Braces",

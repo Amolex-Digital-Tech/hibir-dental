@@ -5,7 +5,7 @@ import { Cpu, UserCheck, Heart, Sparkles, ShieldCheck, Clock } from "lucide-reac
 
 export function WhyChooseUs() {
   const cards = [
-    { title: "Modern Technology", icon: Cpu, desc: "Digital intraoral cameras and low-radiation digital radiography." },
+    { title: "Modern Technology", icon: Cpu, desc: "Digital low-radiation digital radiography." },
     { title: "Experienced Specialists", icon: UserCheck, desc: "A team of qualified specialists covering every dental discipline." },
     { title: "Patient Comfort", icon: Heart, desc: "A calm, hospitable clinic environment designed to eliminate dental anxiety." },
     { title: "Personalized Care", icon: Sparkles, desc: "Individual treatment programs tailored specifically to your goals." },

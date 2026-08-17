@@ -7,11 +7,11 @@ import { Award, GraduationCap } from "lucide-react";
 export function DoctorSpotlight() {
   const spotlightDoctors = [
     {
-      slug: "dr-haregwoin",
-      name: "Dr. Haregewoin",
+      slug: "dr-haregwoin-eshetu",
+      name: "Dr. Haregewoin  Eshetu",
       title: "Chief Expert Dental Surgeon",
       experience: "20+ Years",
-      languages: "English, Amharic",
+      languages: "English, Amharic, Polish",
       image: "/images/doctors/haregewoin.jpg",
       biography:
         "Dr. Haregewoin is a senior specialist orthodontist with over 20 years of clinical experience in advanced aligner therapy and complex bite corrections.",
@@ -21,11 +21,11 @@ export function DoctorSpotlight() {
         "Creating natural, functional, and aesthetically harmonious smiles through minimal intervention and modern technology.",
     },
     {
-      slug: "dr-tsige",
-      name: "Dr. Tsige",
+      slug: "dr-tsigeweini-gebremedhin",
+      name: "Dr. Tsegeweini  G/medhin",
       title: "Chief Expert Dental Surgeon",
       experience: "20+ Years",
-      languages: "English, Amharic",
+      languages: "English, Amharic, Spanish",
       image: "/images/doctors/tsige.jpg",
       biography:
         "Dr. Tsige specializes in transforming smiles using high-precision digital smile design, porcelain veneers, dental implants, and aesthetic makeovers over 20 years.",

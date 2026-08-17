@@ -5,6 +5,7 @@ export interface ContactInfo {
     line1: string;
     line2: string;
     city: string;
+    googleMapsUrl: string;
   };
   workingHours: {
     days: string;
@@ -19,6 +20,8 @@ export const CLINIC_CONTACT: ContactInfo = {
     line1: "Piassa, Next to Enrico Pastry",
     line2: "Wastna Building, 3rd Floor",
     city: "Addis Ababa, Ethiopia",
+    googleMapsUrl:
+      "https://www.google.com/maps/place/Hibr+Special+Dental+Care+Service/@9.0291987,38.7514604,2267m/data=!3m2!1e3!4b1!4m6!3m5!1s0x164b857f38d5dba7:0xe42eb576e484274!8m2!3d9.0291987!4d38.7540353!16s%2Fg%2F11mrdpg1b_!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgxMi4wIKXMDSoASAFQAw%3D%3D",
   },
   workingHours: [
     { days: "Monday", hours: "2:00 LT – 11:00 LT" },
@@ -26,7 +29,7 @@ export const CLINIC_CONTACT: ContactInfo = {
     { days: "Wednesday", hours: "2:00 LT – 11:00 LT" },
     { days: "Thursday", hours: "2:00 LT – 11:00 LT" },
     { days: "Friday", hours: "2:00 LT – 11:00 LT" },
-    { days: "Saturday", hours: "2:00 LT – 11:00 LT" },
+    { days: "Saturday", hours: "2:00 LT – 06:00 LT" },
     { days: "Sunday", hours: "Closed" },
   ],
 };

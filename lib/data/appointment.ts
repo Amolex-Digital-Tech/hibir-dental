@@ -30,9 +30,8 @@ export const SERVICES_LIST = [
 
 export const DOCTORS_LIST = [
   "No Preference",
-  "Dr. Abebe Bekele (General Specialist)",
-  "Dr. Sara Tadesse (Orthodontist)",
-  "Dr. Yared Haile (Pediatric Dentist)",
+  "Dr. Haregewoin  Eshetu (Chief Expert Dental Surgeon)",
+  "Dr. Tsegeweini  G/medhin (Chief Expert Dental Surgeon)",
 ];
 
 export const TIME_SLOTS = [

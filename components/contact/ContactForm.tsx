@@ -58,20 +58,6 @@ export function ContactForm() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Preferred Date</label>
-              <input type="date" className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-amber-500 text-slate-700" />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Preferred Time</label>
-              <select className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-amber-500 text-slate-700">
-                <option value="morning">Morning (2:00 LT - 6:00 LT)</option>
-                <option value="afternoon">Afternoon (6:00 LT - 11:00 LT)</option>
-              </select>
-            </div>
-          </div>
-
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">Message / Details</label>
             <textarea rows={4} placeholder="How can we help you?" className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-amber-500" />

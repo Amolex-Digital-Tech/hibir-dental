@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageWrapper } from "@/components/layout/PageWrapper";
 
 export const metadata: Metadata = {
   title: "Hibir Specialty Dental Clinic",
@@ -16,12 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-slate-50 text-slate-900 antialiased flex flex-col min-h-screen">
-        <Navbar />
-        <PageWrapper>
-          <main className="flex-grow">{children}</main>
-        </PageWrapper>
-        <Footer />
+      <body className="bg-slate-50 text-slate-900 antialiased min-h-screen">
+        {children}
       </body>
     </html>
   );

@@ -68,16 +68,16 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function SocialLinks() {
   const socials = [
-    { name: "Instagram", icon: InstagramIcon, href: "https://instagram.com" },
-    { name: "Facebook", icon: FacebookIcon, href: "https://facebook.com" },
-    { name: "TikTok", icon: TiktokIcon, href: "https://tiktok.com" },
-    { name: "LinkedIn", icon: LinkedinIcon, href: "https://linkedin.com" },
+    { name: "Instagram", icon: InstagramIcon, href: "https://www.instagram.com/hibir_dental_speciality_clinic?igsh=MXN2ZGlnZ2dja2dhaA==&igsi=MXN2ZGlnZ2dja2dhaA==" },
+    { name: "Facebook", icon: FacebookIcon, href: "https://www.facebook.com/share/1DAKo1DPTb/" },
+    { name: "TikTok", icon: TiktokIcon, href: "https://www.tiktok.com/@hibir_dental_speciality?_r=1&_t=ZS-98xXmKkUyTR" },
+    
     {
       name: "WhatsApp",
       icon: MessageCircle,
       href: `https://wa.me/${CLINIC_CONTACT.phone.replace(/[^0-9]/g, "")}`,
     },
-    { name: "Google Maps", icon: MapPin, href: "/contact#map" },
+    { name: "Google Maps", icon: MapPin, href: "https://www.google.com/maps/place/Hibr+Special+Dental+Care+Service/@9.0291987,38.7514604,2267m/data=!3m2!1e3!4b1!4m6!3m5!1s0x164b857f38d5dba7:0xe42eb576e484274!8m2!3d9.0291987!4d38.7540353!16s%2Fg%2F11mrdpg1b_!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgxMi4wIKXMDSoASAFQAw%3D%3D" },
   ];
 
   return (

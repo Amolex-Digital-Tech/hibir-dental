@@ -5,6 +5,7 @@ export interface BlogSection {
   heading: string;
   paragraphs: string[];
   bullets?: string[];
+  closing?: string;
 }
 
 export interface BlogFaq {

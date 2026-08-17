@@ -21,6 +21,30 @@ function InstagramIcon({ className = "w-6 h-6" }: { className?: string }) {
   );
 }
 
+function FacebookIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M14 8h3V4h-3c-3.3 0-5 1.7-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9c0-.7.3-1 1-1Z" />
+    </svg>
+  );
+}
+
+function TikTokIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M19.6 7.2c-1.7-.1-3-1.1-3.6-2.7-.1-.4-.2-.9-.2-1.5h-3.6v12.3c0 1.5-1.2 2.6-2.7 2.6-1.4 0-2.5-1.1-2.5-2.5 0-1.5 1.2-2.6 2.7-2.6.3 0 .6 0 .9.1V9.2c-.3 0-.6-.1-.9-.1-3.5 0-6.3 2.8-6.3 6.3s2.8 6.3 6.3 6.3c3.5 0 6.3-2.8 6.3-6.3V9.7c1.2.9 2.7 1.5 4.3 1.5V7.6c-.2 0-.5-.1-.7-.4Z" />
+    </svg>
+  );
+}
+
 /* -------------------------------------------------------
    Simple illustrations
 ------------------------------------------------------- */
@@ -454,7 +478,7 @@ export function SocialGallery() {
         </div>
 
         {/* -------------------------------------------------
-            Instagram CTA
+            Social Media CTA
         -------------------------------------------------- */}
 
         <motion.div
@@ -481,18 +505,52 @@ export function SocialGallery() {
             Follow Hibir Specialty Dental Clinic
           </p>
 
-          <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-sky-600 hover:shadow-xl"
-          >
-            <InstagramIcon className="h-4 w-4" />
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {/* Instagram */}
 
-            <span>@hibirspecialtydental</span>
+            <a
+              href="https://www.instagram.com/hibir_dental_speciality_clinic?igsh=MXN2ZGlnZ2dja2dhaA==&igsi=MXN2ZGlnZ2dja2dhaA=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-sky-600 hover:shadow-xl"
+            >
+              <InstagramIcon className="h-4 w-4" />
 
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+              <span>@hibirspecialtydental</span>
+
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+
+            {/* Facebook */}
+
+            <a
+              href="https://www.facebook.com/share/1DAKo1DPTb/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-sky-600 hover:shadow-xl"
+            >
+              <FacebookIcon className="h-4 w-4" />
+
+              <span>Hibir Specialty Dental Clinic</span>
+
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+
+            {/* TikTok */}
+
+            <a
+              href="https://www.tiktok.com/@hibir_dental_speciality?_r=1&_t=ZS-98xXmKkUyTR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-sky-600 hover:shadow-xl"
+            >
+              <TikTokIcon className="h-4 w-4" />
+
+              <span>@hibirspecialtydental</span>
+
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </div>
         </motion.div>
 
         {/* Bottom decorative line */}

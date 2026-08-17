@@ -154,7 +154,7 @@ export function FeaturedServices() {
                     href={`/services/${service.slug}`}
                     className="text-xs font-semibold text-slate-700 hover:text-sky-600 inline-flex items-center gap-1 transition-colors"
                   >
-                    Learn More <ArrowRight className="w-3.5 h-3.5" />
+
                   </Link>
                   <Link
                     href="/appointment"
