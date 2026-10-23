@@ -10,7 +10,7 @@ export function DoctorSpotlight() {
       slug: "dr-haregwoin-eshetu",
       name: "Dr. Haregewoin  Eshetu",
       title: "Chief Expert Dental Surgeon",
-      experience: "20+ Years",
+      experience: "30+ Years",
       languages: "English, Amharic, Polish",
       image: "/images/doctors/haregewoin.jpg",
       biography:
@@ -24,7 +24,7 @@ export function DoctorSpotlight() {
       slug: "dr-tsigeweini-gebremedhin",
       name: "Dr. Tsegeweini  G/medhin",
       title: "Chief Expert Dental Surgeon",
-      experience: "20+ Years",
+      experience: "30+ Years",
       languages: "English, Amharic, Spanish",
       image: "/images/doctors/tsige.jpg",
       biography:

@@ -1,7 +1,6 @@
 import { Hero } from "@/components/gallery/Hero";
 import { Categories } from "@/components/gallery/Categories";
-import { GalleryGrid } from "@/components/gallery/GalleryGrid";
-import { BeforeAfter } from "@/components/gallery/BeforeAfter";
+import { GalleryGrid } from "@/components/gallery/GalleryGrid"
 import { ClinicTour } from "@/components/gallery/ClinicTour";
 import { Equipment } from "@/components/gallery/Equipment";
 import { TeamGallery } from "@/components/gallery/TeamGallery";
@@ -15,7 +14,7 @@ export default function GalleryPage() {
       <Hero />
       <Categories />
       <GalleryGrid />
-      <BeforeAfter />
+    
       <ClinicTour />
       <Equipment />
       <TeamGallery />

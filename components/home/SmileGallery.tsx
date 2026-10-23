@@ -37,35 +37,8 @@ const cases: CaseStudy[] = [
     afterImage: "/after-1.jpg",
   },
 
-  {
-    id: "case-2",
-    title: "Clear Aligner Straightening",
-    category: "Orthodontics",
-    description:
-      "Discrete clear aligners used to correct crowding and spacing without traditional metal braces.",
-    beforeLabel: "Crowded Teeth",
-    afterLabel: "Perfect Alignment",
-    treatmentDuration: "6 Months",
-
-    // ORTHODONTIC BEFORE & AFTER
-    beforeImage: "/before-ortho.jpg",
-    afterImage: "/after-ortho.jpg",
-  },
-
-  {
-    id: "case-3",
-    title: "Single Tooth Implant Restoration",
-    category: "Implants",
-    description:
-      "Replacement of a missing molar using a precision titanium implant and custom ceramic crown.",
-    beforeLabel: "Missing Molar",
-    afterLabel: "Natural Crown",
-    treatmentDuration: "3 Months",
-
-    // IMPLANT BEFORE & AFTER
-    beforeImage: "/before-3.jpg",
-    afterImage: "/after-3.jpg",
-  },
+  
+  
 ];
 
 export function SmileGallery() {

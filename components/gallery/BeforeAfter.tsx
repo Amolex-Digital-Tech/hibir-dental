@@ -47,7 +47,7 @@ function BeforeAfterCard({
         <img
           src={afterImage}
           alt={afterAlt}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
           draggable={false}
         />
 
@@ -161,15 +161,6 @@ export function BeforeAfter() {
             afterImage="/after-1.jpg"
             beforeAlt="Before porcelain veneers treatment"
             afterAlt="After porcelain veneers treatment"
-          />
-
-          {/* IMPLANTS */}
-          <BeforeAfterCard
-            title="Full Arch Dental Implants"
-            beforeImage="/before-3.jpg"
-            afterImage="/after-3.jpg"
-            beforeAlt="Before dental implant treatment"
-            afterAlt="After dental implant treatment"
           />
 
         </div>

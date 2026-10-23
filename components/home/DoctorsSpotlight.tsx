@@ -13,30 +13,27 @@ interface Doctor {
   image: string;
   rating?: number; // Optional property prevents build errors when omitted
   yearsExperience: number;
-  specialties: string[];
   languages: string[];
 }
 
 const doctors: Doctor[] = [
   {
     id: "dr-1",
-    name: "Dr. Haregewoin",
+    name: "Dr. Haregewoin Eshetu",
     role: "Chief Expert Dental Surgeon",
     image: "/doctors/doctor-harege.jpg",
-    yearsExperience: 20,
+    yearsExperience: 30,
     rating: 5,
-    specialties: ["Dental Implants", "Cosmetic Dentistry", "Smile Makeovers"],
-    languages: ["English", "Amharic"],
+    languages: ["English", "Amharic", "Polish"],
   },
   {
     id: "dr-2",
-    name: "Dr. Tsige",
+    name: "Dr. Tsegeweini G/medhin",
     role: "Chief Expert Dental Surgeon",
     image: "/doctors/doctor-tsi.jpg",
-    yearsExperience: 20,
+    yearsExperience: 30,
     rating: 5,
-    specialties: ["Invisalign®", "Clear Braces", "Jaw Alignment"],
-    languages: ["English", "Amharic"],
+    languages: ["English", "Amharic", "Spanish"],
   },
 ];
 
@@ -167,19 +164,13 @@ export function DoctorsSpotlight() {
 
                   <hr className="border-slate-100 my-3" />
 
-                  {/* Specialties List */}
+                 
+                  
                   <div className="mb-4">
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Specialties
+                      Languages Spoken
                     </span>
-                    <ul className="space-y-1.5">
-                      {doctor.specialties.map((spec, idx) => (
-                        <li key={idx} className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                          <span className="text-[#0EA5E9]">✓</span>
-                          {spec}
-                        </li>
-                      ))}
-                    </ul>
+                    
                   </div>
 
                   {/* Languages */}

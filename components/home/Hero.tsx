@@ -77,7 +77,7 @@ export function Hero() {
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="font-extrabold text-slate-900 text-sm md:text-base">15+ Yrs</p>
+                  <p className="font-extrabold text-slate-900 text-sm md:text-base">30+ Yrs</p>
                   <p className="text-xs text-slate-500 font-medium">Specialist Exp</p>
                 </div>
               </div>

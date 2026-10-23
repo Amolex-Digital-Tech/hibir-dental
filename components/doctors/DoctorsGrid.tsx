@@ -12,28 +12,18 @@ import { Clock, Globe, ArrowRight } from "lucide-react";
 const DOCTORS = [
   {
     slug: "dr-haregewoin-eshetu",
-    name: "Haregewoin  Eshetu",
+    name: "Dr. Haregewoin  Eshetu",
     title: "Chief Expert Dental Surgeon",
-    experience: "20+ Years",
+    experience: "30+ Years",
     languages: ["English", "Amharic", "Polish"],
-    specialties: [
-      "Dental Implants",
-      "Cosmetic Dentistry",
-      "Smile Makeovers",
-    ],
     image: "/doctors/doctor-haregewoin-profile.jpg",
   },
   {
     slug: "dr-tsigeweini-gebremedhin",
     name: "Dr. Tsegeweini  G/medhin",
     title: "Chief Expert Dental Surgeon",
-    experience: "20+ Years",
+    experience: "30+ Years",
     languages: ["English", "Amharic", "Spanish"],
-    specialties: [
-      "Invisalign®",
-      "Clear Braces",
-      "Jaw Alignment",
-    ],
     image: "/doctors/doctor-tsige-profile.jpg",
   },
 ];
@@ -166,18 +156,7 @@ export function DoctorsGrid() {
                   </div>
 
                   {/* Specialties */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-
-                    {doc.specialties.map((spec) => (
-                      <span
-                        key={spec}
-                        className="px-2.5 py-1 bg-sky-50 text-sky-800 text-[11px] font-medium rounded-md border border-sky-100"
-                      >
-                        {spec}
-                      </span>
-                    ))}
-
-                  </div>
+                  
 
                 </div>
               </div>

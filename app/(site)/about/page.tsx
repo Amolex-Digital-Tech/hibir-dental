@@ -4,7 +4,6 @@ import { WhyChooseUs } from "@/components/about/WhyChooseUs";
 import { OurStory } from "@/components/about/OurStory";
 import { MissionVision } from "@/components/about/MissionVision";
 import { PatientJourney } from "@/components/about/PatientJourney";
-import { Technology } from "@/components/about/Technology";
 import { Achievements } from "@/components/about/Achievements";
 import { DoctorsPreview } from "@/components/about/DoctorsPreview";
 import { Gallery } from "@/components/about/Gallery";
@@ -20,7 +19,7 @@ export default function AboutPage() {
       <OurStory />
       <MissionVision />
       <PatientJourney />
-      <Technology />
+      
       <Achievements />
       <DoctorsPreview />
       <Gallery />
