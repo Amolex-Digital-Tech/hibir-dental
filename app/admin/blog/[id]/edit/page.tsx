@@ -350,7 +350,7 @@ export default function EditBlogPostPage() {
       const { error: updateError } =
         await supabase
           .from("blog_posts")
-          .update(updateData)
+          .update(updateData as never)
           .eq("id", postId);
 
       if (updateError) {

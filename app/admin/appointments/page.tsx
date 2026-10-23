@@ -90,9 +90,9 @@ export default function AdminAppointmentsPage() {
     setUpdatingId(id);
 
     const { error } = await supabase
-      .from("appointments")
-      .update({ status })
-      .eq("id", id);
+  .from("appointments")
+  .update({ status } as never)
+  .eq("id", id);
 
     if (error) {
       console.error(error);

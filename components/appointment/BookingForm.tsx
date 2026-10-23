@@ -358,10 +358,10 @@ export function BookingForm() {
         setClinicSchedule(FALLBACK_SCHEDULE);
       } else {
         const normalizedSchedule: ClinicSchedule[] =
-          (data || []).map((item) => ({
-            day_of_week: Number(item.day_of_week),
-            opening_time: item.opening_time,
-            closing_time: item.closing_time,
+  (data || []).map((item: ClinicSchedule) => ({
+    day_of_week: Number(item.day_of_week),
+    opening_time: item.opening_time,
+    closing_time: item.closing_time,
             is_open: Boolean(item.is_open),
             slot_duration:
               Number(item.slot_duration) || 30,

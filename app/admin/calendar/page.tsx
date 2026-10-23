@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -74,13 +75,12 @@ const SERVICES = [
 
 const DOCTORS = [
   "No Preference",
-  "Dr. Haregewoin  Eshetu (Chief Expert Dental Surgeon)",
-  "Dr. Tsegeweini  G/medhin (Chief Expert Dental Surgeon)",
+  "Dr. Haregewoin Eshetu (Chief Expert Dental Surgeon)",
+  "Dr. Tsegeweini G/medhin (Chief Expert Dental Surgeon)",
 ];
 
 /* =========================================================
    FALLBACK CLINIC SCHEDULE
-   Used only if schedule cannot be loaded.
 ========================================================= */
 
 const FALLBACK_SCHEDULE: ClinicSchedule[] = [
@@ -97,40 +97,40 @@ const FALLBACK_SCHEDULE: ClinicSchedule[] = [
     day_of_week: 2,
     opening_time: "08:00:00",
     closing_time: "17:00:00",
-    slot_duration: 30,
     is_open: true,
+    slot_duration: 30,
   },
   {
     id: 3,
     day_of_week: 3,
     opening_time: "08:00:00",
     closing_time: "17:00:00",
-    slot_duration: 30,
     is_open: true,
+    slot_duration: 30,
   },
   {
     id: 4,
     day_of_week: 4,
     opening_time: "08:00:00",
     closing_time: "17:00:00",
-    slot_duration: 30,
     is_open: true,
+    slot_duration: 30,
   },
   {
     id: 5,
     day_of_week: 5,
     opening_time: "08:00:00",
     closing_time: "17:00:00",
-    slot_duration: 30,
     is_open: true,
+    slot_duration: 30,
   },
   {
     id: 6,
     day_of_week: 6,
     opening_time: "08:00:00",
     closing_time: "12:00:00",
-    slot_duration: 30,
     is_open: true,
+    slot_duration: 30,
   },
   {
     id: 7,
@@ -225,9 +225,7 @@ function generateTimeSlots(schedule: ClinicSchedule | undefined) {
 function getMonthDays(year: number, month: number) {
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
-
   const daysInMonth = lastDay.getDate();
-
   const firstWeekday = firstDay.getDay();
 
   const days: Array<Date | null> = [];
@@ -248,10 +246,6 @@ function getMonthDays(year: number, month: number) {
 ========================================================= */
 
 export default function AdminCalendarPage() {
-  /* =======================================================
-     DATE STATE
-  ======================================================= */
-
   const today = new Date();
 
   const [currentMonth, setCurrentMonth] = useState(
@@ -262,32 +256,16 @@ export default function AdminCalendarPage() {
     formatDateKey(today)
   );
 
-  /* =======================================================
-     DATA
-  ======================================================= */
-
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [schedule, setSchedule] =
     useState<ClinicSchedule[]>(FALLBACK_SCHEDULE);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
   const [error, setError] = useState("");
 
-  /* =======================================================
-     MODAL
-  ======================================================= */
-
   const [showAddModal, setShowAddModal] = useState(false);
-
-  const [selectedTime, setSelectedTime] = useState<string | null>(
-    null
-  );
-
-  /* =======================================================
-     FORM
-  ======================================================= */
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   const [patientName, setPatientName] = useState("");
   const [phone, setPhone] = useState("");
@@ -306,27 +284,19 @@ export default function AdminCalendarPage() {
     setError("");
 
     try {
-      const [
-        appointmentsResponse,
-        scheduleResponse,
-      ] = await Promise.all([
-        supabase
-          .from("appointments")
-          .select("*")
-          .order("appointment_date", {
-            ascending: true,
-          })
-          .order("appointment_time", {
-            ascending: true,
-          }),
+      const [appointmentsResponse, scheduleResponse] =
+        await Promise.all([
+          supabase
+            .from("appointments")
+            .select("*")
+            .order("appointment_date", { ascending: true })
+            .order("appointment_time", { ascending: true }),
 
-        supabase
-          .from("clinic_schedule")
-          .select("*")
-          .order("day_of_week", {
-            ascending: true,
-          }),
-      ]);
+          supabase
+            .from("clinic_schedule")
+            .select("*")
+            .order("day_of_week", { ascending: true }),
+        ]);
 
       if (appointmentsResponse.error) {
         throw appointmentsResponse.error;
@@ -337,13 +307,12 @@ export default function AdminCalendarPage() {
           "Could not load clinic schedule:",
           scheduleResponse.error
         );
-
         setSchedule(FALLBACK_SCHEDULE);
       } else if (
         scheduleResponse.data &&
         scheduleResponse.data.length > 0
       ) {
-        setSchedule(scheduleResponse.data);
+        setSchedule(scheduleResponse.data as ClinicSchedule[]);
       } else {
         setSchedule(FALLBACK_SCHEDULE);
       }
@@ -353,7 +322,6 @@ export default function AdminCalendarPage() {
       );
     } catch (err) {
       console.error(err);
-
       setError(
         "Unable to load the appointment calendar. Please refresh and try again."
       );
@@ -363,69 +331,51 @@ export default function AdminCalendarPage() {
   }
 
   useEffect(() => {
-    loadData();
+    void loadData();
   }, []);
 
   /* =======================================================
-     MONTH
+     CALENDAR DATA
   ======================================================= */
 
-  const monthDays = useMemo(() => {
-    return getMonthDays(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth()
-    );
-  }, [currentMonth]);
-
-  /* =======================================================
-     SELECTED DATE
-  ======================================================= */
+  const monthDays = useMemo(
+    () =>
+      getMonthDays(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth()
+      ),
+    [currentMonth]
+  );
 
   const selectedDateObject = parseDateKey(selectedDate);
-
   const selectedDayOfWeek = selectedDateObject.getDay();
 
   const selectedSchedule = schedule.find(
     (item) => item.day_of_week === selectedDayOfWeek
   );
 
-  const selectedSlots = generateTimeSlots(
-    selectedSchedule
+  const selectedSlots = generateTimeSlots(selectedSchedule);
+
+  const activeAppointments = useMemo(
+    () =>
+      appointments.filter(
+        (appointment) => appointment.status !== "cancelled"
+      ),
+    [appointments]
   );
 
-  /* =======================================================
-     ACTIVE APPOINTMENTS
-     
-     CANCELLED APPOINTMENTS ARE NOT OCCUPIED.
-  ======================================================= */
-
-  const activeAppointments = useMemo(() => {
-    return appointments.filter(
-      (appointment) =>
-        appointment.status !== "cancelled"
-    );
-  }, [appointments]);
-
-  /* =======================================================
-     SELECTED DATE APPOINTMENTS
-  ======================================================= */
-
-  const selectedDateAppointments = useMemo(() => {
-    return appointments
-      .filter(
-        (appointment) =>
-          appointment.appointment_date === selectedDate
-      )
-      .sort((a, b) =>
-        a.appointment_time.localeCompare(
-          b.appointment_time
+  const selectedDateAppointments = useMemo(
+    () =>
+      appointments
+        .filter(
+          (appointment) =>
+            appointment.appointment_date === selectedDate
         )
-      );
-  }, [appointments, selectedDate]);
-
-  /* =======================================================
-     DATE STATUS
-  ======================================================= */
+        .sort((a, b) =>
+          a.appointment_time.localeCompare(b.appointment_time)
+        ),
+    [appointments, selectedDate]
+  );
 
   function getDateAppointments(date: Date) {
     const dateKey = formatDateKey(date);
@@ -448,10 +398,7 @@ export default function AdminCalendarPage() {
         appointment.appointment_date === dateKey
     );
 
-    if (
-      daySchedule &&
-      !daySchedule.is_open
-    ) {
+    if (daySchedule && !daySchedule.is_open) {
       return "closed";
     }
 
@@ -487,17 +434,13 @@ export default function AdminCalendarPage() {
   }
 
   function goToToday() {
-    const todayKey = formatDateKey(new Date());
+    const now = new Date();
 
     setCurrentMonth(
-      new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        1
-      )
+      new Date(now.getFullYear(), now.getMonth(), 1)
     );
 
-    setSelectedDate(todayKey);
+    setSelectedDate(formatDateKey(now));
   }
 
   /* =======================================================
@@ -514,6 +457,7 @@ export default function AdminCalendarPage() {
     setDoctor("No Preference");
     setReason("");
     setMessage("");
+    setError("");
 
     setShowAddModal(true);
   }
@@ -523,7 +467,7 @@ export default function AdminCalendarPage() {
   ======================================================= */
 
   async function createAppointment(
-    event: React.FormEvent
+    event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
@@ -541,25 +485,18 @@ export default function AdminCalendarPage() {
       return;
     }
 
-    /* -----------------------------------------------------
-       DOUBLE CHECK OCCUPANCY BEFORE INSERT
-    ----------------------------------------------------- */
-
     const alreadyBooked = activeAppointments.some(
       (appointment) =>
         appointment.appointment_date === selectedDate &&
-        normalizeTime(
-          appointment.appointment_time
-        ) === selectedTime
+        normalizeTime(appointment.appointment_time) ===
+          selectedTime
     );
 
     if (alreadyBooked) {
       setError(
         "This appointment slot has already been booked."
       );
-
       setShowAddModal(false);
-
       return;
     }
 
@@ -567,61 +504,40 @@ export default function AdminCalendarPage() {
     setError("");
 
     try {
-      /* ---------------------------------------------------
-         GET LOGGED-IN ADMIN
-      --------------------------------------------------- */
-
       const {
         data: { user },
+        error: authError,
       } = await supabase.auth.getUser();
 
-      if (!user) {
+      if (authError || !user) {
         throw new Error(
           "Your admin session has expired. Please sign in again."
         );
       }
 
-      /* ---------------------------------------------------
-         DATABASE INSERT
-      --------------------------------------------------- */
-
-      const { data, error: insertError } =
-        await supabase
-          .from("appointments")
-          .insert({
-            patient_name: patientName.trim(),
-            phone: phone.trim(),
-            email: email.trim() || null,
-
-            appointment_date: selectedDate,
-
-            appointment_time: `${selectedTime}:00`,
-
-            reason: reason.trim() || null,
-
-            status: "confirmed",
-
-            service,
-
-            doctor,
-
-            message: message.trim() || null,
-
-            /* IMPORTANT */
-            booking_source: "admin",
-
-            /* IMPORTANT */
-            created_by: user.id,
-          })
-          .select()
-          .single();
+      const { data, error: insertError } = await supabase
+        .from("appointments")
+        .insert(({
+          patient_name: patientName.trim(),
+          phone: phone.trim(),
+          email: email.trim() || null,
+          appointment_date: selectedDate,
+          appointment_time: `${selectedTime}:00`,
+          reason: reason.trim() || null,
+          status: "confirmed",
+          service,
+          doctor,
+          message: message.trim() || null,
+          booking_source: "admin",
+          created_by: user.id,
+        } as never))
+        .select()
+        .single();
 
       if (insertError) {
         console.error(insertError);
 
-        if (
-          insertError.code === "23505"
-        ) {
+        if (insertError.code === "23505") {
           throw new Error(
             "This time slot has just been booked by someone else."
           );
@@ -629,10 +545,6 @@ export default function AdminCalendarPage() {
 
         throw insertError;
       }
-
-      /* ---------------------------------------------------
-         UPDATE LOCAL CALENDAR IMMEDIATELY
-      --------------------------------------------------- */
 
       if (data) {
         setAppointments((previous) => [
@@ -644,16 +556,11 @@ export default function AdminCalendarPage() {
       setShowAddModal(false);
       setSelectedTime(null);
 
-      /* ---------------------------------------------------
-         RESET FORM
-      --------------------------------------------------- */
-
       setPatientName("");
       setPhone("");
       setEmail("");
       setReason("");
       setMessage("");
-
     } catch (err) {
       console.error(err);
 
@@ -669,15 +576,9 @@ export default function AdminCalendarPage() {
 
   /* =======================================================
      CANCEL APPOINTMENT
-     
-     IMPORTANT:
-     We UPDATE status.
-     We DO NOT DELETE the appointment.
   ======================================================= */
 
-  async function cancelAppointment(
-    appointmentId: string
-  ) {
+  async function cancelAppointment(appointmentId: string) {
     const confirmed = window.confirm(
       "Are you sure you want to cancel this appointment? The time slot will become available again."
     );
@@ -689,38 +590,25 @@ export default function AdminCalendarPage() {
     setError("");
 
     try {
-      const { error: updateError } =
-        await supabase
-          .from("appointments")
-          .update({
-            status: "cancelled",
-          })
-          .eq("id", appointmentId);
+      const { error: updateError } = await supabase
+        .from("appointments")
+        .update(({ status: "cancelled" } as never))
+        .eq("id", appointmentId);
 
       if (updateError) {
         throw updateError;
       }
 
-      /* ---------------------------------------------------
-         UPDATE LOCAL STATE
-      --------------------------------------------------- */
-
       setAppointments((previous) =>
         previous.map((appointment) =>
           appointment.id === appointmentId
-            ? {
-                ...appointment,
-                status: "cancelled",
-              }
+            ? { ...appointment, status: "cancelled" }
             : appointment
         )
       );
     } catch (err) {
       console.error(err);
-
-      setError(
-        "Unable to cancel this appointment."
-      );
+      setError("Unable to cancel this appointment.");
     }
   }
 
@@ -730,67 +618,52 @@ export default function AdminCalendarPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/60">
-      {/* ===================================================
-          HEADER
-      =================================================== */}
-
+      {/* HEADER */}
       <div className="border-b border-slate-200 bg-white/80 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-100 to-blue-50 text-sky-600 shadow-sm">
+                <CalendarDays className="h-5 w-5" />
+              </div>
 
-            <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-100 to-blue-50 text-sky-600 shadow-sm">
-                  <CalendarDays className="h-5 w-5" />
-                </div>
-
-                <div>
-                  <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-                    Appointment Calendar
-                  </h1>
-
-                  <p className="mt-1 text-sm text-slate-500">
-                    Manage clinic availability and appointments.
-                  </p>
-                </div>
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                  Appointment Calendar
+                </h1>
+                <p className="mt-1 text-sm text-slate-500">
+                  Manage clinic availability and appointments.
+                </p>
               </div>
             </div>
 
             <button
               type="button"
-              onClick={loadData}
+              onClick={() => void loadData()}
               disabled={loading}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700 disabled:opacity-60"
             >
               <RefreshCw
-                className={`h-4 w-4 ${
-                  loading ? "animate-spin" : ""
-                }`}
+                className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
               />
-
               Refresh
             </button>
-
           </div>
         </div>
       </div>
 
-      {/* ===================================================
-          ERROR
-      =================================================== */}
-
+      {/* ERROR */}
       {error && (
         <div className="mx-auto max-w-7xl px-6 pt-6 lg:px-8">
           <div className="flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
             <CircleAlert className="mt-0.5 h-5 w-5 shrink-0" />
 
-            <div className="flex-1">
-              {error}
-            </div>
+            <div className="flex-1">{error}</div>
 
             <button
               type="button"
               onClick={() => setError("")}
+              aria-label="Dismiss error"
               className="text-rose-400 hover:text-rose-700"
             >
               <X className="h-4 w-4" />
@@ -799,31 +672,19 @@ export default function AdminCalendarPage() {
         </div>
       )}
 
-      {/* ===================================================
-          MAIN
-      =================================================== */}
-
+      {/* MAIN */}
       <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
-
-        {/* =================================================
-            CALENDAR HEADER
-        ================================================= */}
-
+        {/* CALENDAR HEADER */}
         <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-
           <div>
             <h2 className="text-xl font-bold text-slate-900">
-              {currentMonth.toLocaleDateString(
-                "en-US",
-                {
-                  month: "long",
-                  year: "numeric",
-                }
-              )}
+              {currentMonth.toLocaleDateString("en-US", {
+                month: "long",
+                year: "numeric",
+              })}
             </h2>
 
             <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-slate-500">
-
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 Available
@@ -838,12 +699,10 @@ export default function AdminCalendarPage() {
                 <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
                 Closed
               </div>
-
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-
             <button
               type="button"
               onClick={goToToday}
@@ -855,6 +714,7 @@ export default function AdminCalendarPage() {
             <button
               type="button"
               onClick={previousMonth}
+              aria-label="Previous month"
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -863,49 +723,31 @@ export default function AdminCalendarPage() {
             <button
               type="button"
               onClick={nextMonth}
+              aria-label="Next month"
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
-
           </div>
         </div>
 
-        {/* =================================================
-            CALENDAR
-        ================================================= */}
-
+        {/* CALENDAR GRID */}
         <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-
-          {/* WEEK DAYS */}
-
           <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
-
-            {[
-              "Sun",
-              "Mon",
-              "Tue",
-              "Wed",
-              "Thu",
-              "Fri",
-              "Sat",
-            ].map((day) => (
-              <div
-                key={day}
-                className="px-2 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400"
-              >
-                {day}
-              </div>
-            ))}
-
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+              (day) => (
+                <div
+                  key={day}
+                  className="px-2 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400"
+                >
+                  {day}
+                </div>
+              )
+            )}
           </div>
 
-          {/* DAYS */}
-
           <div className="grid grid-cols-7">
-
             {monthDays.map((date, index) => {
-
               if (!date) {
                 return (
                   <div
@@ -916,68 +758,42 @@ export default function AdminCalendarPage() {
               }
 
               const dateKey = formatDateKey(date);
+              const isToday = dateKey === formatDateKey(new Date());
+              const isSelected = dateKey === selectedDate;
+              const status = getDateStatus(date);
+              const dateAppointments = getDateAppointments(date);
 
-              const isToday =
-                dateKey ===
-                formatDateKey(new Date());
-
-              const isSelected =
-                dateKey === selectedDate;
-
-              const status =
-                getDateStatus(date);
-
-              const dateAppointments =
-                getDateAppointments(date);
-
-              const daySchedule =
-                schedule.find(
-                  (item) =>
-                    item.day_of_week ===
-                    date.getDay()
-                );
+              const daySchedule = schedule.find(
+                (item) => item.day_of_week === date.getDay()
+              );
 
               return (
                 <button
                   key={dateKey}
                   type="button"
-                  onClick={() =>
-                    setSelectedDate(dateKey)
-                  }
-                  className={`
-                    relative min-h-[120px] border-b border-r border-slate-100 p-3 text-left transition
-                    hover:bg-sky-50/60
-                    ${
-                      isSelected
-                        ? "bg-sky-50 ring-2 ring-inset ring-sky-400"
-                        : "bg-white"
-                    }
-                  `}
+                  onClick={() => setSelectedDate(dateKey)}
+                  className={`relative min-h-[120px] border-b border-r border-slate-100 p-3 text-left transition hover:bg-sky-50/60 ${
+                    isSelected
+                      ? "bg-sky-50 ring-2 ring-inset ring-sky-400"
+                      : "bg-white"
+                  }`}
                 >
-
-                  {/* DATE NUMBER */}
-
                   <div className="flex items-center justify-between">
-
                     <span
-                      className={`
-                        flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold
-                        ${
-                          isToday
-                            ? "bg-sky-600 text-white"
-                            : isSelected
+                      className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+                        isToday
+                          ? "bg-sky-600 text-white"
+                          : isSelected
                             ? "bg-sky-100 text-sky-700"
                             : "text-slate-700"
-                        }
-                      `}
+                      }`}
                     >
                       {date.getDate()}
                     </span>
 
-                    {status === "available" &&
-                      daySchedule?.is_open && (
-                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                      )}
+                    {status === "available" && daySchedule?.is_open && (
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    )}
 
                     {status === "occupied" && (
                       <span className="h-2.5 w-2.5 rounded-full bg-sky-500" />
@@ -986,209 +802,141 @@ export default function AdminCalendarPage() {
                     {status === "closed" && (
                       <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
                     )}
-
                   </div>
-
-                  {/* APPOINTMENT COUNT */}
 
                   {dateAppointments.length > 0 && (
                     <div className="mt-4">
-
                       <div className="inline-flex items-center gap-1.5 rounded-lg bg-sky-50 px-2 py-1 text-[10px] font-bold text-sky-700">
                         <CalendarDays className="h-3 w-3" />
-
-                        {dateAppointments.length}{" "}
-                        appointment
-                        {dateAppointments.length !==
-                        1
-                          ? "s"
-                          : ""}
+                        {dateAppointments.length} appointment
+                        {dateAppointments.length !== 1 ? "s" : ""}
                       </div>
-
                     </div>
                   )}
 
-                  {/* OPEN/CLOSED INFORMATION */}
-
                   <div className="absolute bottom-3 left-3 right-3">
-
-                    {daySchedule?.is_open ? (
+                    {daySchedule?.is_open &&
+                    daySchedule.opening_time &&
+                    daySchedule.closing_time ? (
                       <span className="text-[10px] font-medium text-slate-400">
-                        {formatTime(
-                          daySchedule.opening_time!
-                        )}{" "}
-                        –{" "}
-                        {formatTime(
-                          daySchedule.closing_time!
-                        )}
+                        {formatTime(daySchedule.opening_time)} –{" "}
+                        {formatTime(daySchedule.closing_time)}
                       </span>
                     ) : (
                       <span className="text-[10px] font-medium text-slate-300">
                         Closed
                       </span>
                     )}
-
                   </div>
-
                 </button>
               );
             })}
-
           </div>
         </div>
 
-        {/* =================================================
-            SELECTED DATE PANEL
-        ================================================= */}
-
+        {/* SELECTED DATE PANEL */}
         <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
-
-          {/* =================================================
-              TIME SLOTS
-          ================================================= */}
-
+          {/* TIME SLOTS */}
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-
             <div className="mb-6 flex items-start justify-between">
-
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest text-sky-600">
                   Selected Date
                 </p>
 
                 <h3 className="mt-2 text-xl font-bold text-slate-900">
-                  {selectedDateObject.toLocaleDateString(
-                    "en-US",
-                    {
-                      weekday: "long",
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    }
-                  )}
+                  {selectedDateObject.toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
                 </h3>
               </div>
 
               <div className="rounded-2xl bg-sky-50 p-3 text-sky-600">
                 <CalendarDays className="h-5 w-5" />
               </div>
-
             </div>
 
-            {/* CLOSED DAY */}
-
-            {selectedSchedule &&
-              !selectedSchedule.is_open && (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center">
-
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
-                    <Clock3 className="h-5 w-5" />
-                  </div>
-
-                  <h4 className="mt-4 font-semibold text-slate-700">
-                    Clinic is closed
-                  </h4>
-
-                  <p className="mt-1 text-sm text-slate-400">
-                    No appointment slots are available on this day.
-                  </p>
-
+            {selectedSchedule && !selectedSchedule.is_open && (
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                  <Clock3 className="h-5 w-5" />
                 </div>
-              )}
 
-            {/* NO SCHEDULE RECORD */}
-
-            {!selectedSchedule && (
-              <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-6 text-center">
-
-                <CheckCircle2 className="mx-auto h-7 w-7 text-emerald-500" />
-
-                <h4 className="mt-3 font-semibold text-slate-800">
-                  Available for appointments
+                <h4 className="mt-4 font-semibold text-slate-700">
+                  Clinic is closed
                 </h4>
 
-                <p className="mt-1 text-sm text-slate-500">
-                  You can add an appointment to this day.
+                <p className="mt-1 text-sm text-slate-400">
+                  No appointment slots are available on this day.
                 </p>
-
               </div>
             )}
 
-            {/* TIME SLOTS */}
+            {!selectedSchedule && (
+              <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-6 text-center">
+                <CheckCircle2 className="mx-auto h-7 w-7 text-emerald-500" />
+
+                <h4 className="mt-3 font-semibold text-slate-800">
+                  Schedule unavailable
+                </h4>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  No clinic schedule was found for this weekday.
+                </p>
+              </div>
+            )}
 
             {selectedSlots.length > 0 && (
               <div>
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-slate-800">
+                    Appointment Slots
+                  </p>
 
-                <div className="mb-4 flex items-center justify-between">
-
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Appointment Slots
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-400">
-                      Click an available time to add a patient.
-                    </p>
-                  </div>
-
+                  <p className="mt-1 text-xs text-slate-400">
+                    Click an available time to add a patient.
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-
                   {selectedSlots.map((time) => {
-
-                    const appointment =
-                      selectedDateAppointments.find(
-                        (item) =>
-                          normalizeTime(
-                            item.appointment_time
-                          ) === time &&
-                          item.status !==
-                            "cancelled"
-                      );
+                    const appointment = selectedDateAppointments.find(
+                      (item) =>
+                        normalizeTime(item.appointment_time) === time &&
+                        item.status !== "cancelled"
+                    );
 
                     const cancelledAppointment =
                       selectedDateAppointments.find(
                         (item) =>
-                          normalizeTime(
-                            item.appointment_time
-                          ) === time &&
-                          item.status ===
-                            "cancelled"
+                          normalizeTime(item.appointment_time) === time &&
+                          item.status === "cancelled"
                       );
 
-                    const occupied =
-                      Boolean(appointment);
+                    const occupied = Boolean(appointment);
 
                     return (
                       <button
                         key={time}
                         type="button"
                         disabled={occupied}
-                        onClick={() =>
-                          openAddAppointment(time)
-                        }
-                        className={`
-                          group rounded-2xl border p-4 text-left transition
-                          ${
-                            occupied
-                              ? "cursor-default border-sky-100 bg-sky-50"
-                              : "border-emerald-100 bg-emerald-50/60 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-md"
-                          }
-                        `}
+                        onClick={() => openAddAppointment(time)}
+                        className={`group rounded-2xl border p-4 text-left transition ${
+                          occupied
+                            ? "cursor-default border-sky-100 bg-sky-50"
+                            : "border-emerald-100 bg-emerald-50/60 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-md"
+                        }`}
                       >
-
                         <div className="flex items-center justify-between">
-
                           <span
-                            className={`
-                              text-sm font-bold
-                              ${
-                                occupied
-                                  ? "text-sky-700"
-                                  : "text-emerald-700"
-                              }
-                            `}
+                            className={`text-sm font-bold ${
+                              occupied
+                                ? "text-sky-700"
+                                : "text-emerald-700"
+                            }`}
                           >
                             {formatTime(time)}
                           </span>
@@ -1202,50 +950,36 @@ export default function AdminCalendarPage() {
                               <Plus className="h-3.5 w-3.5" />
                             </span>
                           )}
-
                         </div>
 
                         <p
-                          className={`
-                            mt-2 text-[11px] font-semibold
-                            ${
-                              occupied
-                                ? "text-sky-600"
-                                : "text-emerald-600"
-                            }
-                          `}
+                          className={`mt-2 text-[11px] font-semibold ${
+                            occupied
+                              ? "text-sky-600"
+                              : "text-emerald-600"
+                          }`}
                         >
                           {occupied
                             ? appointment?.patient_name
                             : "Available"}
                         </p>
 
-                        {cancelledAppointment &&
-                          !occupied && (
-                            <p className="mt-1 text-[9px] text-slate-400">
-                              Previously cancelled
-                            </p>
-                          )}
-
+                        {cancelledAppointment && !occupied && (
+                          <p className="mt-1 text-[9px] text-slate-400">
+                            Previously cancelled
+                          </p>
+                        )}
                       </button>
                     );
                   })}
-
                 </div>
-
               </div>
             )}
-
           </div>
 
-          {/* =================================================
-              DAY APPOINTMENTS
-          ================================================= */}
-
+          {/* DAILY APPOINTMENTS */}
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-
             <div className="mb-5">
-
               <p className="text-xs font-bold uppercase tracking-widest text-sky-600">
                 Daily Schedule
               </p>
@@ -1253,13 +987,10 @@ export default function AdminCalendarPage() {
               <h3 className="mt-2 text-lg font-bold text-slate-900">
                 Appointments
               </h3>
-
             </div>
 
-            {selectedDateAppointments.length ===
-            0 ? (
+            {selectedDateAppointments.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-emerald-200 bg-emerald-50/50 p-6 text-center">
-
                 <CheckCircle2 className="mx-auto h-7 w-7 text-emerald-500" />
 
                 <p className="mt-3 text-sm font-semibold text-slate-700">
@@ -1269,130 +1000,90 @@ export default function AdminCalendarPage() {
                 <p className="mt-1 text-xs leading-5 text-slate-400">
                   All available time slots are currently free.
                 </p>
-
               </div>
             ) : (
               <div className="space-y-3">
+                {selectedDateAppointments.map((appointment) => {
+                  const cancelled = appointment.status === "cancelled";
 
-                {selectedDateAppointments.map(
-                  (appointment) => {
+                  return (
+                    <div
+                      key={appointment.id}
+                      className={`rounded-2xl border p-4 ${
+                        cancelled
+                          ? "border-slate-200 bg-slate-50 opacity-70"
+                          : "border-slate-200 bg-white"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <Clock3 className="h-4 w-4 shrink-0 text-sky-500" />
 
-                    const cancelled =
-                      appointment.status ===
-                      "cancelled";
-
-                    return (
-                      <div
-                        key={appointment.id}
-                        className={`
-                          rounded-2xl border p-4
-                          ${
-                            cancelled
-                              ? "border-slate-200 bg-slate-50 opacity-70"
-                              : "border-slate-200 bg-white"
-                          }
-                        `}
-                      >
-
-                        <div className="flex items-start justify-between gap-3">
-
-                          <div className="min-w-0">
-
-                            <div className="flex items-center gap-2">
-
-                              <Clock3 className="h-4 w-4 shrink-0 text-sky-500" />
-
-                              <span className="text-sm font-bold text-slate-900">
-                                {formatTime(
-                                  appointment.appointment_time
-                                )}
-                              </span>
-
-                            </div>
-
-                            <h4 className="mt-3 truncate text-sm font-bold text-slate-800">
-                              {appointment.patient_name}
-                            </h4>
-
-                            <p className="mt-1 text-xs text-slate-500">
-                              {appointment.service ||
-                                appointment.reason ||
-                                "Dental appointment"}
-                            </p>
-
+                            <span className="text-sm font-bold text-slate-900">
+                              {formatTime(appointment.appointment_time)}
+                            </span>
                           </div>
 
-                          <span
-                            className={`
-                              shrink-0 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider
-                              ${
-                                cancelled
-                                  ? "bg-slate-200 text-slate-500"
-                                  : appointment.status ===
-                                    "confirmed"
-                                  ? "bg-emerald-100 text-emerald-700"
-                                  : "bg-amber-100 text-amber-700"
-                              }
-                            `}
-                          >
-                            {appointment.status}
-                          </span>
+                          <h4 className="mt-3 truncate text-sm font-bold text-slate-800">
+                            {appointment.patient_name}
+                          </h4>
 
+                          <p className="mt-1 text-xs text-slate-500">
+                            {appointment.service ||
+                              appointment.reason ||
+                              "Dental appointment"}
+                          </p>
                         </div>
 
-                        {!cancelled && (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              cancelAppointment(
-                                appointment.id
-                              )
-                            }
-                            className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-rose-500 transition hover:text-rose-700"
-                          >
-                            <Ban className="h-3.5 w-3.5" />
-
-                            Cancel appointment
-                          </button>
-                        )}
-
-                        {cancelled && (
-                          <p className="mt-3 text-[10px] font-medium text-emerald-600">
-                            This time slot is available again.
-                          </p>
-                        )}
-
+                        <span
+                          className={`shrink-0 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider ${
+                            cancelled
+                              ? "bg-slate-200 text-slate-500"
+                              : appointment.status === "confirmed"
+                                ? "bg-emerald-100 text-emerald-700"
+                                : "bg-amber-100 text-amber-700"
+                          }`}
+                        >
+                          {appointment.status}
+                        </span>
                       </div>
-                    );
-                  }
-                )}
 
+                      {!cancelled && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            void cancelAppointment(appointment.id)
+                          }
+                          className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-rose-500 transition hover:text-rose-700"
+                        >
+                          <Ban className="h-3.5 w-3.5" />
+                          Cancel appointment
+                        </button>
+                      )}
+
+                      {cancelled && (
+                        <p className="mt-3 text-[10px] font-medium text-emerald-600">
+                          This time slot is available again.
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
-
           </div>
-
         </div>
-
       </div>
 
-      {/* ===================================================
-          ADD APPOINTMENT MODAL
-      =================================================== */}
-
+      {/* ADD APPOINTMENT MODAL */}
       {showAddModal && selectedTime && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm">
-
           <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-slate-200 bg-white shadow-2xl">
-
             {/* MODAL HEADER */}
-
             <div className="sticky top-0 z-10 flex items-start justify-between border-b border-slate-200 bg-white p-6">
-
               <div>
-
                 <div className="flex items-center gap-3">
-
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
                     <Plus className="h-5 w-5" />
                   </div>
@@ -1406,28 +1097,21 @@ export default function AdminCalendarPage() {
                       Create an appointment directly from the admin calendar.
                     </p>
                   </div>
-
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">
-
                   <span className="rounded-lg bg-sky-50 px-3 py-1.5 text-xs font-semibold text-sky-700">
-                    {selectedDateObject.toLocaleDateString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      }
-                    )}
+                    {selectedDateObject.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
                   </span>
 
                   <span className="rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
                     {formatTime(selectedTime)}
                   </span>
-
                 </div>
-
               </div>
 
               <button
@@ -1436,172 +1120,117 @@ export default function AdminCalendarPage() {
                   setShowAddModal(false);
                   setSelectedTime(null);
                 }}
+                aria-label="Close appointment form"
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
               >
                 <X className="h-5 w-5" />
               </button>
-
             </div>
 
             {/* FORM */}
-
             <form
               onSubmit={createAppointment}
               className="space-y-5 p-6"
             >
-
-              {/* PATIENT NAME */}
-
               <div>
-
                 <label className="mb-2 block text-xs font-semibold text-slate-700">
                   Patient Name *
                 </label>
 
                 <div className="relative">
-
                   <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
                   <input
                     type="text"
                     required
                     value={patientName}
-                    onChange={(e) =>
-                      setPatientName(
-                        e.target.value
-                      )
-                    }
+                    onChange={(e) => setPatientName(e.target.value)}
                     placeholder="Patient full name"
                     className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                   />
-
                 </div>
-
               </div>
 
-              {/* PHONE + EMAIL */}
-
               <div className="grid gap-4 sm:grid-cols-2">
-
                 <div>
-
                   <label className="mb-2 block text-xs font-semibold text-slate-700">
                     Phone *
                   </label>
 
                   <div className="relative">
-
                     <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
                     <input
                       type="tel"
                       required
                       value={phone}
-                      onChange={(e) =>
-                        setPhone(e.target.value)
-                      }
+                      onChange={(e) => setPhone(e.target.value)}
                       placeholder="+251..."
                       className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                     />
-
                   </div>
-
                 </div>
 
                 <div>
-
                   <label className="mb-2 block text-xs font-semibold text-slate-700">
                     Email
                   </label>
 
                   <div className="relative">
-
                     <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) =>
-                        setEmail(e.target.value)
-                      }
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="patient@email.com"
                       className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                     />
-
                   </div>
-
                 </div>
-
               </div>
 
-              {/* SERVICE */}
-
               <div>
-
                 <label className="mb-2 block text-xs font-semibold text-slate-700">
                   Service
                 </label>
 
                 <div className="relative">
-
                   <Stethoscope className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
                   <select
                     value={service}
-                    onChange={(e) =>
-                      setService(e.target.value)
-                    }
+                    onChange={(e) => setService(e.target.value)}
                     className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                   >
-                    {SERVICES.map(
-                      (item) => (
-                        <option
-                          key={item}
-                          value={item}
-                        >
-                          {item}
-                        </option>
-                      )
-                    )}
+                    {SERVICES.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
                   </select>
-
                 </div>
-
               </div>
 
-              {/* DOCTOR */}
-
               <div>
-
                 <label className="mb-2 block text-xs font-semibold text-slate-700">
                   Doctor
                 </label>
 
                 <select
                   value={doctor}
-                  onChange={(e) =>
-                    setDoctor(e.target.value)
-                  }
+                  onChange={(e) => setDoctor(e.target.value)}
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                 >
-                  {DOCTORS.map(
-                    (item) => (
-                      <option
-                        key={item}
-                        value={item}
-                      >
-                        {item}
-                      </option>
-                    )
-                  )}
+                  {DOCTORS.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
-
               </div>
 
-              {/* REASON */}
-
               <div>
-
                 <label className="mb-2 block text-xs font-semibold text-slate-700">
                   Reason for Visit
                 </label>
@@ -1609,19 +1238,13 @@ export default function AdminCalendarPage() {
                 <input
                   type="text"
                   value={reason}
-                  onChange={(e) =>
-                    setReason(e.target.value)
-                  }
+                  onChange={(e) => setReason(e.target.value)}
                   placeholder="Optional"
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                 />
-
               </div>
 
-              {/* NOTES */}
-
               <div>
-
                 <label className="mb-2 block text-xs font-semibold text-slate-700">
                   Notes
                 </label>
@@ -1629,23 +1252,16 @@ export default function AdminCalendarPage() {
                 <textarea
                   rows={3}
                   value={message}
-                  onChange={(e) =>
-                    setMessage(e.target.value)
-                  }
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder="Additional notes..."
                   className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
                 />
-
               </div>
 
-              {/* ADMIN NOTICE */}
-
               <div className="flex gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4">
-
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
 
                 <div>
-
                   <p className="text-xs font-bold text-emerald-800">
                     Admin appointment
                   </p>
@@ -1653,15 +1269,10 @@ export default function AdminCalendarPage() {
                   <p className="mt-1 text-[11px] leading-5 text-emerald-700">
                     This appointment will be saved as a confirmed appointment created by the admin.
                   </p>
-
                 </div>
-
               </div>
 
-              {/* ACTIONS */}
-
               <div className="flex gap-3 pt-2">
-
                 <button
                   type="button"
                   onClick={() => {
@@ -1690,15 +1301,11 @@ export default function AdminCalendarPage() {
                     </>
                   )}
                 </button>
-
               </div>
-
             </form>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }
