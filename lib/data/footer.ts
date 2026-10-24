@@ -16,7 +16,6 @@ export const FOOTER_SERVICES: FooterSection = {
     { label: "Root Canal Treatment", href: "/services#root-canal" },
     { label: "Dental Implants", href: "/services#implants" },
     { label: "Braces & Invisalign", href: "/services#orthodontics" },
-    { label: "Teeth Whitening", href: "/services#whitening" },
     { label: "Smile Makeover", href: "/services#cosmetic" },
   ],
 };
